@@ -204,3 +204,29 @@ class TestMyEnrollments:
         html = resp.data.decode()
         assert "DevOps Practices with Jenkins and Docker" in html
         assert "Akhil H" in html
+
+
+# --------------------------------------------------------------------------
+# Course seeding
+# --------------------------------------------------------------------------
+
+class TestSeedCourses:
+    def test_all_courses_listed_on_home(self, client):
+        html = client.get("/").data.decode()
+        assert "CS50: Introduction to Computer Science" in html
+        assert "Introduction to Algorithms (MIT 6.006)" in html
+
+    def test_new_course_detail_page(self, client):
+        resp = client.get("/course/7")
+        assert resp.status_code == 200
+        assert b"David J. Malan" in resp.data
+
+    def test_seed_is_idempotent_and_keeps_original_ids(self, client):
+        with app.app_context():
+            db = get_db()
+            before = db.execute("SELECT COUNT(*) FROM courses").fetchone()[0]
+            seed_courses(db)
+            after = db.execute("SELECT COUNT(*) FROM courses").fetchone()[0]
+            first = db.execute("SELECT title FROM courses WHERE id = 1").fetchone()[0]
+        assert before == after == 20
+        assert first == "Introduction to Cloud Computing"

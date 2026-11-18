@@ -44,11 +44,12 @@ def init_db(db):
 
 
 def seed_courses(db):
-    """Insert sample courses if the table is empty."""
-    count = db.execute("SELECT COUNT(*) FROM courses").fetchone()[0]
-    if count > 0:
-        return
+    """Insert any sample course that is not in the table yet.
 
+    Courses are matched by title, so running this on an existing database adds
+    newly introduced courses without duplicating or changing existing rows.
+    On an empty database the original six courses keep ids 1-6.
+    """
     sample_courses = [
         {
             "title": "Introduction to Cloud Computing",
@@ -147,7 +148,10 @@ def seed_courses(db):
         },
     ]
 
-    for c in sample_courses:
+    existing = {row[0] for row in db.execute("SELECT title FROM courses").fetchall()}
+    for c in sample_courses + ADDITIONAL_COURSES:
+        if c["title"] in existing:
+            continue
         db.execute(
             "INSERT INTO courses (title, short_description, long_description, "
             "instructor, duration, level, prerequisites) "
@@ -156,3 +160,271 @@ def seed_courses(db):
             c,
         )
     db.commit()
+
+
+# Courses added after the first release. Video lessons for every course live in
+# static/data/courses.json, matched by title.
+ADDITIONAL_COURSES = [
+    {
+        "title": 'CS50: Introduction to Computer Science',
+        "short_description": (
+            "Harvard's introduction to computer science: algorithms, C, memory, data "
+            'structures, Python, SQL and web programming.'
+        ),
+        "long_description": (
+            "CS50 is Harvard University's introduction to the intellectual "
+            'enterprises of computer science and the art of programming. Starting '
+            'with Scratch and binary, it moves to C to teach how memory and data '
+            'structures really work, then to Python, SQL, and HTML, CSS and '
+            'JavaScript, ending with web applications in Flask. Each lecture is split '
+            "into lessons by the course's own chapters."
+        ),
+        "instructor": 'David J. Malan',
+        "duration": '11 weeks',
+        "level": 'Beginner',
+        "prerequisites": 'None',
+    },
+    {
+        "title": 'Python for Everybody',
+        "short_description": (
+            'A university-level introduction to programming in Python, from variables '
+            'and loops to files, web data and databases.'
+        ),
+        "long_description": (
+            "Python for Everybody is Dr. Charles Severance's University of Michigan "
+            'course for people with no programming background. It covers variables, '
+            'conditionals, functions, loops, strings, files, lists, dictionaries and '
+            'tuples, then regular expressions, networked programs, web services, '
+            'object-oriented programming and SQLite databases. A second module adds a '
+            'project-based Python course from freeCodeCamp.'
+        ),
+        "instructor": 'Dr. Charles Severance',
+        "duration": '8 weeks',
+        "level": 'Beginner',
+        "prerequisites": 'None',
+    },
+    {
+        "title": 'Git and GitHub in Practice',
+        "short_description": (
+            'Version control from the first commit to rebasing, cherry-picking and '
+            'team workflows on GitHub.'
+        ),
+        "long_description": (
+            'Start with the core Git workflow – staging, committing, branching and '
+            'merging – then go further with remotes, pull requests and collaboration '
+            'on GitHub. The later modules cover professional techniques: interactive '
+            'rebase, cherry-picking, the reflog, submodules, and branching strategies '
+            'used by real teams.'
+        ),
+        "instructor": 'Mosh Hamedani and others',
+        "duration": '3 weeks',
+        "level": 'Beginner',
+        "prerequisites": 'Basic use of a terminal',
+    },
+    {
+        "title": 'Introduction to Algorithms (MIT 6.006)',
+        "short_description": (
+            'MIT lectures on algorithmic thinking, data structures, sorting and '
+            'hashing, with an emphasis on proofs and running time.'
+        ),
+        "long_description": (
+            'Selected lectures from MIT 6.006 (Spring 2020), published by MIT '
+            'OpenCourseWare. The course introduces the mathematical modelling of '
+            'computational problems and the common algorithms and data structures '
+            'used to solve them: models of computation, dynamic arrays, sets and '
+            'sorting, hashing and linear-time sorting. The course review lecture ties '
+            'the material together, and a 2011 lecture on peak finding adds another '
+            'view of algorithmic thinking.'
+        ),
+        "instructor": 'Erik Demaine, Jason Ku and Justin Solomon',
+        "duration": '6 weeks',
+        "level": 'Intermediate',
+        "prerequisites": 'Programming in Python and basic discrete mathematics',
+    },
+    {
+        "title": 'Data Structures and Algorithms',
+        "short_description": (
+            'Arrays, linked lists, stacks, queues, heaps, trees, hash tables and '
+            'graphs, with the algorithms that use them.'
+        ),
+        "long_description": (
+            'A practical course on the data structures every programmer should know. '
+            'You will implement and analyse dynamic arrays, linked lists, stacks, '
+            'queues, priority queues and heaps, union-find, binary search trees, hash '
+            'tables, Fenwick trees, suffix arrays and balanced trees. A second module '
+            'introduces algorithmic thinking, sorting and searching for beginners.'
+        ),
+        "instructor": 'William Fiset and others',
+        "duration": '8 weeks',
+        "level": 'Intermediate',
+        "prerequisites": 'Comfortable with one programming language',
+    },
+    {
+        "title": 'Web Development Foundations: HTML, CSS and JavaScript',
+        "short_description": (
+            'Build web pages from scratch: semantic HTML, CSS layout with flexbox and '
+            'grid, and JavaScript for interactivity.'
+        ),
+        "long_description": (
+            'This course builds the three languages of the web in order. You start '
+            'with semantic HTML5 – headings, links, images, lists, tables and forms – '
+            'then style pages with CSS: selectors, the box model, typography, '
+            'flexbox, grid and responsive design. The final module teaches JavaScript '
+            'from variables and functions to objects, arrays and loops, so you can '
+            'add behaviour to your pages.'
+        ),
+        "instructor": 'freeCodeCamp.org instructors',
+        "duration": '8 weeks',
+        "level": 'Beginner',
+        "prerequisites": 'None',
+    },
+    {
+        "title": 'Computer Networking Fundamentals',
+        "short_description": (
+            'How networks work: the OSI and TCP/IP models, IP addressing and '
+            'subnetting, routing, switching, DNS and common protocols.'
+        ),
+        "long_description": (
+            'Begin with what a network is, then go layer by layer through the OSI '
+            'model with real-life examples. The last module follows a full Network+ '
+            'exam preparation course: cabling and topologies, IP addressing and '
+            'subnetting, routing and switching, wireless, network services such as '
+            'DNS and DHCP, security and troubleshooting.'
+        ),
+        "instructor": 'Multiple instructors',
+        "duration": '6 weeks',
+        "level": 'Beginner',
+        "prerequisites": 'None',
+    },
+    {
+        "title": 'Cybersecurity Fundamentals',
+        "short_description": (
+            'Core security concepts – threats, passwords and hashing, malware, email '
+            'and network attacks – then an introduction to ethical hacking.'
+        ),
+        "long_description": (
+            'The first module explains the terminology of security, how computers and '
+            'the internet work, passwords and hash functions, common password '
+            'attacks, how email works and the main types of malware. The second '
+            'module is a long introduction to network penetration testing by Heath '
+            "Adams: the ethical hacker's methodology, networking refreshers, Linux, "
+            'Python, information gathering, scanning and exploitation in a lab.'
+        ),
+        "instructor": 'Multiple instructors',
+        "duration": '6 weeks',
+        "level": 'Beginner',
+        "prerequisites": 'Basic networking and command-line use',
+    },
+    {
+        "title": 'Infrastructure as Code with Terraform',
+        "short_description": (
+            'Define cloud infrastructure in code with Terraform: providers, state, '
+            'variables, modules and multi-environment setups, plus an intro to '
+            'Ansible.'
+        ),
+        "long_description": (
+            'Learn why infrastructure as code matters, then build up Terraform '
+            'skills: the HCL language, providers and resources, state and remote '
+            'backends, variables and outputs, modules, and managing several '
+            'environments. You will automate AWS infrastructure end to end, and '
+            'finish with a short look at Ansible for configuring the servers you '
+            'create.'
+        ),
+        "instructor": 'Sid Palas and others',
+        "duration": '5 weeks',
+        "level": 'Intermediate',
+        "prerequisites": 'Basic AWS knowledge and command-line use',
+    },
+    {
+        "title": 'Machine Learning Foundations',
+        "short_description": (
+            'Supervised and unsupervised learning in Python: regression, '
+            'classification, neural networks, clustering and model evaluation.'
+        ),
+        "long_description": (
+            'A practical introduction to machine learning with Python. You will learn '
+            'the vocabulary of features, labels and training sets, then work through '
+            'k-nearest neighbours, naive Bayes, logistic regression, support vector '
+            'machines, neural networks, linear regression, k-means clustering and '
+            'principal component analysis. A second module covers the same ground '
+            'more slowly, with more on data preparation and evaluation.'
+        ),
+        "instructor": 'Kylie Ying and others',
+        "duration": '6 weeks',
+        "level": 'Intermediate',
+        "prerequisites": 'Python and high-school algebra',
+    },
+    {
+        "title": 'Linear Algebra (MIT 18.06)',
+        "short_description": (
+            "The opening lectures of Gilbert Strang's linear algebra course: the "
+            'geometry of linear equations, elimination, and matrix multiplication and '
+            'inverses.'
+        ),
+        "long_description": (
+            "Professor Gilbert Strang's MIT 18.06 is one of the most watched "
+            'mathematics courses in the world. These first three lectures look at '
+            'systems of linear equations from the row and column pictures, solve them '
+            'by elimination with matrices, and develop matrix multiplication and '
+            'inverses. They are the foundation for the rest of linear algebra and for '
+            'machine learning.'
+        ),
+        "instructor": 'Prof. Gilbert Strang',
+        "duration": '3 weeks',
+        "level": 'Intermediate',
+        "prerequisites": 'High-school algebra',
+    },
+    {
+        "title": 'Building Web Apps with Flask',
+        "short_description": (
+            'Build Python web applications with Flask: routing, Jinja templates, '
+            'forms, databases, authentication and deployment.'
+        ),
+        "long_description": (
+            'Flask is the framework this platform is built on. This course starts '
+            'with routes, templates and static files, then adds forms and validation, '
+            'a database with SQLAlchemy, user registration and login, and finally '
+            "deployment. CS50's Flask lecture is included as a compact overview of "
+            'the same ideas.'
+        ),
+        "instructor": 'freeCodeCamp.org instructors',
+        "duration": '4 weeks',
+        "level": 'Intermediate',
+        "prerequisites": 'Python basics and some HTML',
+    },
+    {
+        "title": 'Google Cloud Associate Cloud Engineer',
+        "short_description": (
+            'Prepare for the Associate Cloud Engineer exam: projects and IAM, Compute '
+            'Engine, GKE, App Engine, Cloud Run, storage, networking and operations.'
+        ),
+        "long_description": (
+            'A full course for the Google Cloud Associate Cloud Engineer '
+            'certification. It covers the resource hierarchy, billing and IAM, the '
+            'compute options from Compute Engine to GKE, App Engine, Cloud Run and '
+            'Cloud Functions, storage and databases, VPC networking, load balancing, '
+            'and monitoring and logging, with hands-on follow-alongs throughout.'
+        ),
+        "instructor": 'freeCodeCamp.org instructors',
+        "duration": '8 weeks',
+        "level": 'Intermediate',
+        "prerequisites": 'Introduction to Cloud Computing or equivalent experience',
+    },
+    {
+        "title": 'System Design Fundamentals',
+        "short_description": (
+            'The building blocks of large systems: scaling, load balancing, caching, '
+            'databases, CAP and how to approach design interviews.'
+        ),
+        "long_description": (
+            'An introduction to system design concepts and interview preparation. It '
+            'covers vertical and horizontal scaling, load balancers, caching and '
+            'CDNs, database choices and replication, the CAP theorem, and a method '
+            'for working through design questions.'
+        ),
+        "instructor": 'freeCodeCamp.org instructors',
+        "duration": '2 weeks',
+        "level": 'Intermediate',
+        "prerequisites": 'Experience building a web application',
+    },
+]
