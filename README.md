@@ -84,7 +84,10 @@ Learning paths:
 ├── requirements.txt        # Python dependencies
 ├── requirements-dev.txt    # Test dependencies (pytest)
 ├── Dockerfile              # Container image definition
-├── Jenkinsfile             # CI pipeline: install, test, build image
+├── Jenkinsfile             # CI/CD: test, build, smoke test, push to Docker Hub, deploy to EC2
+├── deploy/
+│   ├── ec2-setup.sh        #   One-time EC2 setup (Docker, secret key, data volume, swap)
+│   └── deploy.sh           #   Pull, swap container, health check, automatic rollback
 ├── tests/                  # pytest suite
 ├── templates/
 │   ├── base.html           #   Layout: header, search, mobile menu, footer
@@ -159,6 +162,20 @@ docker run -p 5000:5000 learnhub
 ```
 
 Then open **http://localhost:5000**.
+
+---
+
+## CI/CD and AWS deployment
+
+Jenkins builds and deploys every commit to `main`:
+
+```
+pytest → docker build → smoke-test the container → push to Docker Hub → deploy to EC2 → check the live site
+```
+
+On the EC2 instance the app runs as a Docker container on port 80. The SQLite database lives in a Docker volume, so data survives redeploys, and a new version that fails its health check is rolled back automatically.
+
+The step-by-step setup (Docker Hub, EC2 launch, Jenkins credentials and job) is in **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**.
 
 ---
 
@@ -305,7 +322,7 @@ All lectures are free videos published on YouTube by their creators. LearnHub on
 
 - **User accounts.** Enrollment is looked up by email, and progress, notes and saved courses stay in the browser.
 - **Saving progress and quiz scores in the database.** This would need new tables and API routes.
-- **AWS deployment.** This will be added separately as the CD part of the course project.
+- **HTTPS and a domain name.** The EC2 deployment serves plain HTTP on port 80; adding a domain with a TLS certificate (for example Nginx with Let's Encrypt, or an AWS load balancer) is a next step.
 
 ---
 
