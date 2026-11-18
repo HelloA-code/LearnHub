@@ -1,0 +1,485 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "title": "Introduction to Cloud Computing",
+      "instructor": "Dr. Meera Krishnan",
+      "source": "Simplilearn, freeCodeCamp.org",
+      "level": "Beginner",
+      "category": "Cloud",
+      "duration": "6 weeks",
+      "description": "What the cloud is, how IaaS, PaaS and SaaS differ, and how AWS and Azure organise their core services.",
+      "learn": [
+        "Explain virtualisation, multi-tenancy and the shared responsibility model",
+        "Tell IaaS, PaaS and SaaS apart with real examples",
+        "Find your way around the main AWS and Azure services",
+        "Provision a small environment on AWS with Terraform"
+      ],
+      "modules": [
+        {
+          "title": "Cloud fundamentals",
+          "lessons": [
+            {
+              "id": "1-1",
+              "title": "What cloud computing is",
+              "youtubeId": "M988_fsOSWo",
+              "seconds": 383,
+              "duration": "6m",
+              "channel": "Simplilearn",
+              "sourceTitle": "Cloud Computing In 6 Minutes | What Is Cloud Computing?",
+              "sourceUrl": "https://www.youtube.com/watch?v=M988_fsOSWo"
+            }
+          ]
+        },
+        {
+          "title": "A tour of two providers",
+          "lessons": [
+            {
+              "id": "1-2",
+              "title": "AWS core services",
+              "youtubeId": "3hLmDS179YE",
+              "seconds": 14280,
+              "duration": "3h 58m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "AWS Certified Cloud Practitioner Training 2020 - Full Course",
+              "sourceUrl": "https://www.youtube.com/watch?v=3hLmDS179YE"
+            },
+            {
+              "id": "1-3",
+              "title": "Azure core services",
+              "youtubeId": "NKEFWyqJ5XA",
+              "seconds": 11425,
+              "duration": "3h 10m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "Microsoft Azure Fundamentals Certification Course (AZ-900)",
+              "sourceUrl": "https://www.youtube.com/watch?v=NKEFWyqJ5XA"
+            }
+          ]
+        },
+        {
+          "title": "Hands-on",
+          "lessons": [
+            {
+              "id": "1-4",
+              "title": "Build a dev environment on AWS with Terraform",
+              "youtubeId": "iRaai1IBlB0",
+              "seconds": 5954,
+              "duration": "1h 39m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "Learn Terraform (and AWS) by Building a Dev Environment",
+              "sourceUrl": "https://www.youtube.com/watch?v=iRaai1IBlB0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "DevOps Practices with Jenkins and Docker",
+      "instructor": "Prof. Alan Torres",
+      "source": "TechWorld with Nana, freeCodeCamp.org, Programming with Mosh, DevOps Journey",
+      "level": "Intermediate",
+      "category": "DevOps",
+      "duration": "8 weeks",
+      "description": "Version control, containers and CI/CD pipelines: from a Git repository to a Jenkinsfile that builds and tests a Docker image.",
+      "learn": [
+        "Describe what DevOps changes about how software is shipped",
+        "Use Git branches, commits and pull requests day to day",
+        "Write a Dockerfile and run multi-container apps with Docker Compose",
+        "Write a declarative Jenkinsfile with build, test and deploy stages",
+        "Compare Jenkins with GitHub Actions for the same pipeline"
+      ],
+      "modules": [
+        {
+          "title": "Foundations",
+          "lessons": [
+            {
+              "id": "2-1",
+              "title": "What DevOps actually is",
+              "youtubeId": "0yWAtQ6wYNM",
+              "seconds": 2132,
+              "duration": "36m",
+              "channel": "TechWorld with Nana",
+              "sourceTitle": "What is DevOps? REALLY understand it | DevOps vs SRE",
+              "sourceUrl": "https://www.youtube.com/watch?v=0yWAtQ6wYNM"
+            },
+            {
+              "id": "2-2",
+              "title": "Git and GitHub",
+              "youtubeId": "RGOj5yH7evk",
+              "seconds": 4110,
+              "duration": "1h 8m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "Git and GitHub for Beginners - Crash Course",
+              "sourceUrl": "https://www.youtube.com/watch?v=RGOj5yH7evk"
+            }
+          ]
+        },
+        {
+          "title": "Containers with Docker",
+          "lessons": [
+            {
+              "id": "2-3",
+              "title": "Docker from images to volumes",
+              "youtubeId": "3c-iBn73dDE",
+              "seconds": 9975,
+              "duration": "2h 46m",
+              "channel": "TechWorld with Nana",
+              "sourceTitle": "Docker Tutorial for Beginners [FULL COURSE in 3 Hours]",
+              "sourceUrl": "https://www.youtube.com/watch?v=3c-iBn73dDE"
+            },
+            {
+              "id": "2-4",
+              "title": "Multi-container apps with Docker Compose",
+              "youtubeId": "HG6yIjZapSA",
+              "seconds": 1982,
+              "duration": "33m",
+              "channel": "Programming with Mosh",
+              "sourceTitle": "Docker Compose Tutorial",
+              "sourceUrl": "https://www.youtube.com/watch?v=HG6yIjZapSA"
+            }
+          ]
+        },
+        {
+          "title": "CI/CD pipelines",
+          "lessons": [
+            {
+              "id": "2-5",
+              "title": "Jenkins from zero",
+              "youtubeId": "6YZvp2GwT0A",
+              "seconds": 4108,
+              "duration": "1h 8m",
+              "channel": "DevOps Journey",
+              "sourceTitle": "Learn Jenkins! Complete Jenkins Course - Zero to Hero",
+              "sourceUrl": "https://www.youtube.com/watch?v=6YZvp2GwT0A"
+            },
+            {
+              "id": "2-6",
+              "title": "Writing a Jenkinsfile",
+              "youtubeId": "7KCS70sCoK0",
+              "seconds": 2105,
+              "duration": "35m",
+              "channel": "TechWorld with Nana",
+              "sourceTitle": "Complete Jenkins Pipeline Tutorial | Jenkinsfile explained",
+              "sourceUrl": "https://www.youtube.com/watch?v=7KCS70sCoK0"
+            },
+            {
+              "id": "2-7",
+              "title": "The same pipeline in GitHub Actions",
+              "youtubeId": "R8_veQiYBjI",
+              "seconds": 1950,
+              "duration": "32m",
+              "channel": "TechWorld with Nana",
+              "sourceTitle": "GitHub Actions Tutorial - Basic Concepts and CI/CD Pipeline with Docker",
+              "sourceUrl": "https://www.youtube.com/watch?v=R8_veQiYBjI"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "AWS Solutions Architect Preparation",
+      "instructor": "Dr. Meera Krishnan",
+      "source": "freeCodeCamp.org",
+      "level": "Intermediate",
+      "category": "Cloud",
+      "duration": "10 weeks",
+      "description": "A full review of the AWS services on the Solutions Architect – Associate exam: compute, storage, networking, databases and IAM.",
+      "learn": [
+        "Choose between EC2, Lambda and containers for a workload",
+        "Design VPCs with public and private subnets",
+        "Pick the right storage and database service for a use case",
+        "Apply IAM policies and encryption with KMS",
+        "Answer scenario questions in the style of the exam"
+      ],
+      "modules": [
+        {
+          "title": "Refresher",
+          "lessons": [
+            {
+              "id": "3-1",
+              "title": "Cloud Practitioner review",
+              "youtubeId": "3hLmDS179YE",
+              "seconds": 14280,
+              "duration": "3h 58m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "AWS Certified Cloud Practitioner Training 2020 - Full Course",
+              "sourceUrl": "https://www.youtube.com/watch?v=3hLmDS179YE"
+            }
+          ]
+        },
+        {
+          "title": "Exam preparation",
+          "lessons": [
+            {
+              "id": "3-2",
+              "title": "Solutions Architect – Associate (SAA-C02)",
+              "youtubeId": "Ia-UEYYR44s",
+              "seconds": 37578,
+              "duration": "10h 26m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "AWS Certified Solutions Architect - Associate 2020 (PASS THE EXAM!)",
+              "sourceUrl": "https://www.youtube.com/watch?v=Ia-UEYYR44s"
+            },
+            {
+              "id": "3-3",
+              "title": "Solutions Architect – Associate (SAA-C03), full course",
+              "youtubeId": "c3Cn4xYfxJY",
+              "seconds": 181758,
+              "duration": "50h 29m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "AWS Solutions Architect Associate Certification (SAA-C03) – Full Course to PASS the Exam",
+              "sourceUrl": "https://www.youtube.com/watch?v=c3Cn4xYfxJY"
+            }
+          ]
+        },
+        {
+          "title": "Capstone",
+          "lessons": [
+            {
+              "id": "3-4",
+              "title": "Infrastructure as code with Terraform",
+              "youtubeId": "iRaai1IBlB0",
+              "seconds": 5954,
+              "duration": "1h 39m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "Learn Terraform (and AWS) by Building a Dev Environment",
+              "sourceUrl": "https://www.youtube.com/watch?v=iRaai1IBlB0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Linux System Administration Essentials",
+      "instructor": "Ms. Fatima Al-Rashid",
+      "source": "freeCodeCamp.org",
+      "level": "Beginner",
+      "category": "Systems",
+      "duration": "5 weeks",
+      "description": "Working on a Linux server from the command line: files, users, permissions, packages, services and Bash scripts.",
+      "learn": [
+        "Navigate the filesystem and manage files from the terminal",
+        "Manage users, groups and permissions",
+        "Install software with apt and yum",
+        "Automate routine tasks with Bash scripts"
+      ],
+      "modules": [
+        {
+          "title": "Getting started",
+          "lessons": [
+            {
+              "id": "4-1",
+              "title": "Linux crash course",
+              "youtubeId": "ROjZy1WbCIA",
+              "seconds": 10075,
+              "duration": "2h 48m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "Linux Operating System - Crash Course for Beginners",
+              "sourceUrl": "https://www.youtube.com/watch?v=ROjZy1WbCIA"
+            },
+            {
+              "id": "4-2",
+              "title": "The 50 most used terminal commands",
+              "youtubeId": "ZtqBQ68cfJc",
+              "seconds": 18016,
+              "duration": "5h 0m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "The 50 Most Popular Linux & Terminal Commands - Full Course for Beginners",
+              "sourceUrl": "https://www.youtube.com/watch?v=ZtqBQ68cfJc"
+            }
+          ]
+        },
+        {
+          "title": "Administration",
+          "lessons": [
+            {
+              "id": "4-3",
+              "title": "Introduction to Linux (full course)",
+              "youtubeId": "sWbUDq4S6Y8",
+              "seconds": 22051,
+              "duration": "6h 8m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "Introduction to Linux – Full Course for Beginners",
+              "sourceUrl": "https://www.youtube.com/watch?v=sWbUDq4S6Y8"
+            }
+          ]
+        },
+        {
+          "title": "Automation",
+          "lessons": [
+            {
+              "id": "4-4",
+              "title": "Bash scripting",
+              "youtubeId": "tK9Oc6AEnR4",
+              "seconds": 2877,
+              "duration": "48m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "Bash Scripting Tutorial for Beginners",
+              "sourceUrl": "https://www.youtube.com/watch?v=tK9Oc6AEnR4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Containerisation and Kubernetes",
+      "instructor": "Prof. Alan Torres",
+      "source": "TechWorld with Nana, freeCodeCamp.org",
+      "level": "Advanced",
+      "category": "DevOps",
+      "duration": "8 weeks",
+      "description": "Running containers at scale: pods, deployments, services, config maps and volumes, then monitoring the cluster with Prometheus.",
+      "learn": [
+        "Explain the Kubernetes control plane and worker nodes",
+        "Deploy an app with Deployments, Services and ConfigMaps",
+        "Persist data with volumes",
+        "Run a microservices app on a local cluster",
+        "Understand how Prometheus collects metrics"
+      ],
+      "modules": [
+        {
+          "title": "Concepts",
+          "lessons": [
+            {
+              "id": "5-1",
+              "title": "Kubernetes in 15 minutes",
+              "youtubeId": "VnvRFRk_51k",
+              "seconds": 853,
+              "duration": "14m",
+              "channel": "TechWorld with Nana",
+              "sourceTitle": "What is Kubernetes | Kubernetes explained in 15 mins",
+              "sourceUrl": "https://www.youtube.com/watch?v=VnvRFRk_51k"
+            },
+            {
+              "id": "5-2",
+              "title": "Kubernetes crash course",
+              "youtubeId": "s_o8dwzRlu4",
+              "seconds": 4323,
+              "duration": "1h 12m",
+              "channel": "TechWorld with Nana",
+              "sourceTitle": "Kubernetes Crash Course for Absolute Beginners [NEW]",
+              "sourceUrl": "https://www.youtube.com/watch?v=s_o8dwzRlu4"
+            }
+          ]
+        },
+        {
+          "title": "In depth",
+          "lessons": [
+            {
+              "id": "5-3",
+              "title": "Kubernetes full course",
+              "youtubeId": "X48VuDVv0do",
+              "seconds": 13015,
+              "duration": "3h 37m",
+              "channel": "TechWorld with Nana",
+              "sourceTitle": "Kubernetes Tutorial for Beginners [FULL COURSE in 4 Hours]",
+              "sourceUrl": "https://www.youtube.com/watch?v=X48VuDVv0do"
+            },
+            {
+              "id": "5-4",
+              "title": "Containers and Kubernetes, hands-on",
+              "youtubeId": "kTp5xUtcalw",
+              "seconds": 21396,
+              "duration": "5h 57m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "Docker Containers and Kubernetes Fundamentals – Full Hands-On Course",
+              "sourceUrl": "https://www.youtube.com/watch?v=kTp5xUtcalw"
+            }
+          ]
+        },
+        {
+          "title": "Observability",
+          "lessons": [
+            {
+              "id": "5-5",
+              "title": "How Prometheus monitoring works",
+              "youtubeId": "h4Sl21AKiDg",
+              "seconds": 1290,
+              "duration": "22m",
+              "channel": "TechWorld with Nana",
+              "sourceTitle": "How Prometheus Monitoring works | Prometheus Architecture explained",
+              "sourceUrl": "https://www.youtube.com/watch?v=h4Sl21AKiDg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Database Design and SQL Fundamentals",
+      "instructor": "Dr. Ravi Patel",
+      "source": "freeCodeCamp.org, Programming with Mosh",
+      "level": "Beginner",
+      "category": "Data",
+      "duration": "6 weeks",
+      "description": "Relational modelling and SQL: designing normalised schemas, then querying them with joins, subqueries and aggregates.",
+      "learn": [
+        "Model a domain with entities and relationships",
+        "Normalise a schema to third normal form",
+        "Write SELECT queries with joins, subqueries and GROUP BY",
+        "Create tables, indexes and constraints in PostgreSQL"
+      ],
+      "modules": [
+        {
+          "title": "SQL basics",
+          "lessons": [
+            {
+              "id": "6-1",
+              "title": "SQL full course",
+              "youtubeId": "HXV3zeQKqGY",
+              "seconds": 15639,
+              "duration": "4h 21m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "SQL Tutorial - Full Database Course for Beginners",
+              "sourceUrl": "https://www.youtube.com/watch?v=HXV3zeQKqGY"
+            },
+            {
+              "id": "6-2",
+              "title": "SQL with MySQL",
+              "youtubeId": "7S_tz1z_5bA",
+              "seconds": 11419,
+              "duration": "3h 10m",
+              "channel": "Programming with Mosh",
+              "sourceTitle": "SQL Course for Beginners [Full Course]",
+              "sourceUrl": "https://www.youtube.com/watch?v=7S_tz1z_5bA"
+            }
+          ]
+        },
+        {
+          "title": "Design",
+          "lessons": [
+            {
+              "id": "6-3",
+              "title": "Database design",
+              "youtubeId": "ztHopE5Wnpc",
+              "seconds": 29240,
+              "duration": "8h 7m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "Database Design Course - Learn how to design and plan a database for beginners",
+              "sourceUrl": "https://www.youtube.com/watch?v=ztHopE5Wnpc"
+            }
+          ]
+        },
+        {
+          "title": "PostgreSQL",
+          "lessons": [
+            {
+              "id": "6-4",
+              "title": "PostgreSQL in practice",
+              "youtubeId": "qw--VYLpxG4",
+              "seconds": 15574,
+              "duration": "4h 20m",
+              "channel": "freeCodeCamp.org",
+              "sourceTitle": "Learn PostgreSQL Tutorial - Full Course for Beginners",
+              "sourceUrl": "https://www.youtube.com/watch?v=qw--VYLpxG4"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
