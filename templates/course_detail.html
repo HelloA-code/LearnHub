@@ -2,37 +2,140 @@
 {% block title %}{{ course['title'] }} – LearnHub{% endblock %}
 
 {% block content %}
-<nav class="breadcrumb">
+<div data-course-page data-course-id="{{ course['id'] }}" data-course-title="{{ course['title'] }}">
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="{{ url_for('home') }}">Courses</a>
-    <span class="breadcrumb-sep">/</span>
-    <span>{{ course['title'] }}</span>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    {% if request.args.get('lesson') %}
+    <a href="{{ url_for('course_detail', course_id=course['id']) }}">{{ course['title'] }}</a>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    <span data-crumb-lesson>Lesson</span>
+    {% else %}
+    <span aria-current="page">{{ course['title'] }}</span>
+    {% endif %}
 </nav>
 
-<article class="course-detail">
-    <header class="course-detail-header">
-        <h1>{{ course['title'] }}</h1>
-        <div class="course-detail-meta">
-            <span class="badge badge-{{ course['level']|lower }}">{{ course['level'] }}</span>
-            <span class="meta-sep">&middot;</span>
-            <span class="meta-text">{{ course['duration'] }}</span>
-            <span class="meta-sep">&middot;</span>
-            <span class="meta-text">{{ course['instructor'] }}</span>
+<!-- ============ Player (shown when ?lesson= is present and JS is available) ============ -->
+<section data-player hidden aria-labelledby="player-course">
+    <div class="player-head">
+        <h1 id="player-course">{{ course['title'] }}</h1>
+        <a href="{{ url_for('course_detail', course_id=course['id']) }}" class="small">Course overview</a>
+    </div>
+    <div class="player-layout">
+        <div>
+            <div class="video" data-video></div>
+            <div class="lesson-bar">
+                <label class="checkbox">
+                    <input type="checkbox" data-complete>
+                    Mark as complete
+                </label>
+                <div class="btn-row">
+                    <a class="btn btn-outline btn-sm" data-prev href="#">
+                        <svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg>Previous
+                    </a>
+                    <a class="btn btn-primary btn-sm" data-next href="#">
+                        Next<svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="lesson-info">
+                <p class="eyebrow" data-lesson-module></p>
+                <h2 data-lesson-title></h2>
+                <p class="lesson-source" data-lesson-source></p>
+            </div>
+            <div class="notes">
+                <div class="notes-head">
+                    <label for="lesson-notes">Your notes for this lesson</label>
+                    <span class="notes-status" data-notes-status aria-live="polite"></span>
+                </div>
+                <textarea id="lesson-notes" data-notes placeholder="Notes are saved automatically in this browser."></textarea>
+            </div>
         </div>
+        <aside class="lesson-panel" aria-label="Course lessons">
+            <div class="panel-head">
+                <h2>Lessons</h2>
+                <div class="progress" role="progressbar" aria-label="Course progress" aria-valuemin="0" aria-valuemax="100" data-progress><span style="width:0"></span></div>
+                <span class="progress-label" data-progress-label></span>
+            </div>
+            <ol class="panel-list" data-panel-list></ol>
+        </aside>
+    </div>
+</section>
+
+<!-- ============ Overview ============ -->
+<article class="course-detail" data-overview>
+    <header class="course-hero">
+        <div>
+            <p class="eyebrow" data-category>&nbsp;</p>
+            <h1>{{ course['title'] }}</h1>
+            <p class="lede">{{ course['short_description'] }}</p>
+            <div class="meta">
+                <span class="badge badge-{{ course['level']|lower }}">{{ course['level'] }}</span>
+                <span>{{ course['duration'] }}</span>
+                <span>Instructor: {{ course['instructor'] }}</span>
+            </div>
+            <div class="btn-row">
+                <a href="{{ url_for('enroll', course_id=course['id']) }}" class="btn btn-primary btn-lg">Enroll for free</a>
+                <a href="#" class="btn btn-outline btn-lg" data-start hidden>Start course</a>
+                <button type="button" class="save-btn" style="height:48px;padding:0 16px" data-save="{{ course['id'] }}" aria-pressed="false">
+                    <svg class="icon" aria-hidden="true"><use href="#i-bookmark"/></svg>
+                    <span>Save</span>
+                </button>
+            </div>
+        </div>
+        <aside class="course-preview" aria-label="Course summary">
+            <div class="thumb" data-thumb aria-hidden="true"></div>
+            <dl>
+                <dt>Level</dt><dd>{{ course['level'] }}</dd>
+                <dt>Length</dt><dd>{{ course['duration'] }}</dd>
+                <dt>Video</dt><dd data-video-total>–</dd>
+                <dt>Lessons</dt><dd data-lesson-count>–</dd>
+            </dl>
+        </aside>
     </header>
 
-    <section class="course-detail-body">
-        <h2>About This Course</h2>
-        <p>{{ course['long_description'] }}</p>
+    <div class="course-body">
+        <div>
+            <section data-learn-section hidden>
+                <h2>What you'll learn</h2>
+                <ul class="learn-list" data-learn></ul>
+            </section>
 
-        {% if course['prerequisites'] %}
-        <h2>Prerequisites</h2>
-        <p>{{ course['prerequisites'] }}</p>
-        {% endif %}
-    </section>
+            <section class="course-detail-body">
+                <h2>About This Course</h2>
+                <p>{{ course['long_description'] }}</p>
+            </section>
 
-    <div class="course-detail-actions">
+            <section data-syllabus-section hidden>
+                <h2>Syllabus</h2>
+                <div class="syllabus" data-syllabus></div>
+            </section>
+        </div>
+
+        <aside>
+            {% if course['prerequisites'] %}
+            <div class="side-box">
+                <h3>Prerequisites</h3>
+                <p>{{ course['prerequisites'] }}</p>
+            </div>
+            {% endif %}
+            <div class="side-box">
+                <h3>Instructor</h3>
+                <p>{{ course['instructor'] }}</p>
+            </div>
+            <div class="side-box" data-credits hidden>
+                <h3>Video lectures</h3>
+                <p>Lessons embed free lectures from these YouTube channels:</p>
+                <ul data-credits-list></ul>
+            </div>
+        </aside>
+    </div>
+
+    <div class="course-detail-actions course-actions">
         <a href="{{ url_for('enroll', course_id=course['id']) }}" class="btn btn-primary">Enroll in This Course</a>
         <a href="{{ url_for('home') }}" class="btn btn-outline">Back to Catalogue</a>
     </div>
 </article>
+</div>
 {% endblock %}

@@ -2,31 +2,151 @@
 {% block title %}Courses – LearnHub{% endblock %}
 
 {% block content %}
-<section class="page-header">
-    <h1>Course Catalogue</h1>
-    <p class="page-subtitle">Browse our current courses in cloud computing, DevOps, system administration, and databases.</p>
+<section class="hero" aria-labelledby="hero-title">
+    <div>
+        <h1 id="hero-title">Free courses in cloud computing, DevOps and databases.</h1>
+        <p class="hero-lede">Each course is a structured path through full-length lectures from freeCodeCamp, TechWorld with Nana and other open channels. Watch here, track your progress, and keep notes per lesson.</p>
+        <form action="{{ url_for('home') }}" method="get" role="search" data-hero-search>
+            <div class="search search-lg">
+                <label for="hero-q" class="sr-only">Search courses</label>
+                <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+                <input id="hero-q" type="search" name="q" placeholder="Try “Docker”, “SQL” or “Linux”" autocomplete="off">
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg">Search</button>
+        </form>
+    </div>
+    <aside class="hero-aside" aria-label="At a glance">
+        <dl>
+            <div><dt>Courses</dt><dd>{{ courses|length }}</dd></div>
+            <div><dt>Topics</dt><dd>Cloud, DevOps, Linux, SQL</dd></div>
+            <div><dt>Cost</dt><dd>Free, no account needed</dd></div>
+        </dl>
+    </aside>
 </section>
 
-<section class="course-list">
-    {% for course in courses %}
-    <article class="course-card">
-        <div class="course-card-body">
-            <div class="course-meta">
-                <span class="badge badge-{{ course['level']|lower }}">{{ course['level'] }}</span>
-                <span class="meta-sep">&middot;</span>
-                <span class="meta-text">{{ course['duration'] }}</span>
+<section class="section" data-continue hidden aria-labelledby="continue-title">
+    <div class="section-head">
+        <h2 id="continue-title">Continue learning</h2>
+        <a href="{{ url_for('my_enrollments') }}">All my courses</a>
+    </div>
+    <ul class="learning-list" data-continue-list></ul>
+</section>
+
+<section class="section" aria-labelledby="topics-title">
+    <h2 id="topics-title" class="eyebrow" style="margin-bottom:12px">Browse by topic</h2>
+    <ul class="chips" data-topic-chips>
+        <li><a class="chip" href="{{ url_for('home') }}?category=Cloud#catalog" data-category="Cloud">Cloud</a></li>
+        <li><a class="chip" href="{{ url_for('home') }}?category=DevOps#catalog" data-category="DevOps">DevOps</a></li>
+        <li><a class="chip" href="{{ url_for('home') }}?category=Systems#catalog" data-category="Systems">Linux &amp; systems</a></li>
+        <li><a class="chip" href="{{ url_for('home') }}?category=Data#catalog" data-category="Data">Databases</a></li>
+    </ul>
+</section>
+
+<section class="section" id="catalog" aria-labelledby="catalog-title">
+    <div class="section-head">
+        <div>
+            <h2 id="catalog-title">Courses</h2>
+            <p>Every course in the catalogue, with its level and expected length.</p>
+        </div>
+    </div>
+
+    <div class="catalog-tools" data-catalog-tools hidden>
+        <div class="search">
+            <label for="cat-q" class="sr-only">Filter courses</label>
+            <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+            <input id="cat-q" type="search" placeholder="Filter by title, topic or instructor" autocomplete="off" data-filter-q>
+        </div>
+        <div class="filter-row">
+            <div>
+                <label for="f-cat">Topic</label>
+                <select id="f-cat" data-filter-category>
+                    <option value="">All topics</option>
+                    <option value="Cloud">Cloud</option>
+                    <option value="DevOps">DevOps</option>
+                    <option value="Systems">Linux &amp; systems</option>
+                    <option value="Data">Databases</option>
+                </select>
             </div>
-            <h2 class="course-card-title">
-                <a href="{{ url_for('course_detail', course_id=course['id']) }}">{{ course['title'] }}</a>
-            </h2>
-            <p class="course-card-desc">{{ course['short_description'] }}</p>
-            <p class="course-card-instructor">Instructor: {{ course['instructor'] }}</p>
+            <div>
+                <label for="f-level">Level</label>
+                <select id="f-level" data-filter-level>
+                    <option value="">All levels</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+            </div>
+            <div>
+                <label for="f-sort">Sort</label>
+                <select id="f-sort" data-sort>
+                    <option value="default">Recommended</option>
+                    <option value="title">Title A–Z</option>
+                    <option value="level">Level</option>
+                    <option value="shortest">Shortest first</option>
+                </select>
+            </div>
         </div>
-        <div class="course-card-actions">
-            <a href="{{ url_for('course_detail', course_id=course['id']) }}" class="btn btn-outline">View Details</a>
-            <a href="{{ url_for('enroll', course_id=course['id']) }}" class="btn btn-primary">Enroll</a>
-        </div>
-    </article>
-    {% endfor %}
+    </div>
+
+    <p class="result-count" data-result-count aria-live="polite"></p>
+
+    <ul class="course-grid course-list" data-course-grid>
+        {% for course in courses %}
+        <li class="course-card" data-course-card
+            data-id="{{ course['id'] }}"
+            data-title="{{ course['title'] }}"
+            data-level="{{ course['level'] }}"
+            data-instructor="{{ course['instructor'] }}"
+            data-desc="{{ course['short_description'] }}"
+            data-order="{{ loop.index0 }}">
+            <div class="thumb" data-thumb aria-hidden="true"></div>
+            <div class="course-card-body">
+                <span class="course-card-source" data-source>&nbsp;</span>
+                <h3 class="course-card-title">
+                    <a href="{{ url_for('course_detail', course_id=course['id']) }}">{{ course['title'] }}</a>
+                </h3>
+                <p class="course-card-desc">{{ course['short_description'] }}</p>
+                <p class="course-card-instructor">Instructor: {{ course['instructor'] }}</p>
+                <div class="course-card-foot">
+                    <div class="meta">
+                        <span class="badge badge-{{ course['level']|lower }}">{{ course['level'] }}</span>
+                        <span>{{ course['duration'] }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="course-card-actions">
+                <a href="{{ url_for('enroll', course_id=course['id']) }}" class="btn btn-outline btn-sm">Enroll</a>
+                <button type="button" class="save-btn" data-save="{{ course['id'] }}" aria-pressed="false">
+                    <svg class="icon" aria-hidden="true"><use href="#i-bookmark"/></svg>
+                    <span>Save</span>
+                </button>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="empty-state" data-empty hidden>
+        <h3>No courses match these filters</h3>
+        <p>Try a shorter search term, or clear the topic and level filters.</p>
+        <button type="button" class="btn btn-outline" data-clear-filters>Clear filters</button>
+    </div>
+</section>
+
+<section class="section" aria-labelledby="how-title">
+    <h2 id="how-title" style="margin-bottom:20px">How it works</h2>
+    <ol class="steps">
+        <li>
+            <h3>Pick a course</h3>
+            <p>Read the syllabus and what each course covers. Every lesson links to its original lecture on YouTube.</p>
+        </li>
+        <li>
+            <h3>Enroll with your email</h3>
+            <p>Enrolling records the course against your email so you can find it again under My Learning.</p>
+        </li>
+        <li>
+            <h3>Watch and take notes</h3>
+            <p>Mark lessons complete and write notes as you go. Progress and notes are kept in this browser.</p>
+        </li>
+    </ol>
 </section>
 {% endblock %}

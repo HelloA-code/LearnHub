@@ -2,34 +2,37 @@
 {% block title %}Enroll – {{ course['title'] }} – LearnHub{% endblock %}
 
 {% block content %}
-<nav class="breadcrumb">
-    <a href="{{ url_for('home') }}">Courses</a>
-    <span class="breadcrumb-sep">/</span>
-    <a href="{{ url_for('course_detail', course_id=course['id']) }}">{{ course['title'] }}</a>
-    <span class="breadcrumb-sep">/</span>
-    <span>Enroll</span>
-</nav>
+<div class="form-page form-centered">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ url_for('home') }}">Courses</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="{{ url_for('course_detail', course_id=course['id']) }}">{{ course['title'] }}</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Enroll</span>
+    </nav>
 
-<section class="form-page">
     <h1>Enroll in {{ course['title'] }}</h1>
-    <p class="form-intro">Fill in your details below to enroll. You can view your enrollments afterwards on the
-        <a href="{{ url_for('my_enrollments') }}">My Enrollments</a> page using your email address.</p>
+    <p class="form-intro">Enrolling is free. We only use your email to list your courses on the
+        <a href="{{ url_for('my_enrollments') }}">My Enrollments</a> page.</p>
 
-    <form method="POST" class="enroll-form" novalidate>
-        <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" value="{{ name }}" required placeholder="e.g. Akhil Sharma">
-        </div>
+    <div class="form-card">
+        <form method="POST" class="enroll-form" novalidate>
+            <div class="form-group">
+                <label for="name">Full name</label>
+                <input type="text" id="name" name="name" value="{{ name }}" required autocomplete="name">
+            </div>
 
-        <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" value="{{ email }}" required placeholder="e.g. akhil@example.com">
-        </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" value="{{ email }}" required autocomplete="email">
+                <span class="form-hint">Use the same email each time to see all your courses together.</span>
+            </div>
 
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Submit Enrollment</button>
-            <a href="{{ url_for('course_detail', course_id=course['id']) }}" class="btn btn-outline">Cancel</a>
-        </div>
-    </form>
-</section>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Submit Enrollment</button>
+                <a href="{{ url_for('course_detail', course_id=course['id']) }}" class="btn btn-ghost">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
