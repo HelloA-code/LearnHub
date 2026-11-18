@@ -9,3 +9,7 @@ requirements-dev.txt
 README.md
 Jenkinsfile
 .dockerignore
+docs/
+deploy/
+reports/
+.gitattributes
