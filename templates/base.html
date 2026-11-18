@@ -3,43 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="LearnHub – Online courses in cloud computing, DevOps, databases, and system administration.">
+    <meta name="description" content="LearnHub – Free courses in cloud computing, DevOps, Linux and databases, built from full-length university and community lectures.">
     <title>{% block title %}LearnHub{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        /* Apply the saved theme before first paint to avoid a flash. */
+        (function () {
+            var t = null;
+            try { t = localStorage.getItem("learnhub:theme"); } catch (e) {}
+            if (!t && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) t = "dark";
+            if (t === "dark") document.documentElement.setAttribute("data-theme", "dark");
+        })();
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230B5CAD'/%3E%3Cpath d='M7 6v12h10' stroke='white' stroke-width='2.4' fill='none'/%3E%3C/svg%3E">
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="site-nav">
-        <div class="nav-inner">
-            <a href="{{ url_for('home') }}" class="nav-brand">LearnHub</a>
+<body data-courses-url="{{ url_for('static', filename='data/courses.json') }}"
+      data-home-url="{{ url_for('home') }}"
+      data-course-url="{{ url_for('course_detail', course_id=0) }}"
+      data-enroll-url="{{ url_for('enroll', course_id=0) }}"
+      data-page="{{ request.endpoint }}">
+
+    <!-- Outline icon sprite -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <defs>
+            <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+            <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+            <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+            <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
+            <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+            <symbol id="i-bookmark" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></symbol>
+            <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+            <symbol id="i-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 3 3 5-6"/></symbol>
+            <symbol id="i-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></symbol>
+            <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></symbol>
+            <symbol id="i-play-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z"/></symbol>
+            <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+            <symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></symbol>
+            <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
+            <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+            <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+        </defs>
+    </svg>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <div class="wrap nav">
+            <a href="{{ url_for('home') }}" class="brand" aria-label="LearnHub home">
+                <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5" fill="currentColor"/><path d="M7 6v12h10" stroke="#fff" stroke-width="2.4" fill="none"/></svg>
+                LearnHub
+            </a>
+
             <ul class="nav-links">
-                <li><a href="{{ url_for('home') }}">Courses</a></li>
-                <li><a href="{{ url_for('my_enrollments') }}">My Enrollments</a></li>
+                <li><a href="{{ url_for('home') }}#catalog" {% if request.endpoint in ['home', 'course_detail', 'enroll'] %}aria-current="page"{% endif %}>Courses</a></li>
+                <li><a href="{{ url_for('my_enrollments') }}" {% if request.endpoint == 'my_enrollments' %}aria-current="page"{% endif %}>My Learning</a></li>
             </ul>
+
+            <form class="search nav-search" role="search" action="{{ url_for('home') }}" method="get">
+                <label for="nav-q" class="sr-only">Search courses</label>
+                <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+                <input id="nav-q" type="search" name="q" placeholder="Search courses" autocomplete="off" value="{{ request.args.get('q', '') if request.endpoint == 'home' else '' }}">
+            </form>
+
+            <div class="nav-end">
+                <button type="button" class="icon-btn" data-theme-toggle aria-label="Switch to dark theme">
+                    <svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg>
+                </button>
+                <a class="icon-btn" href="{{ url_for('my_enrollments') }}" aria-label="My enrollments" title="My enrollments">
+                    <svg class="icon" aria-hidden="true"><use href="#i-user"/></svg>
+                </a>
+                <button type="button" class="icon-btn menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+                    <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+                </button>
+            </div>
         </div>
-    </nav>
 
-    <!-- Flash messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <div class="flash-container">
-        {% for category, message in messages %}
-        <div class="flash flash-{{ category }}">{{ message }}</div>
-        {% endfor %}
-    </div>
-    {% endif %}
-    {% endwith %}
+        <div id="mobile-menu" class="mobile-menu" hidden>
+            <div class="wrap">
+                <form class="search" role="search" action="{{ url_for('home') }}" method="get">
+                    <label for="m-q" class="sr-only">Search courses</label>
+                    <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+                    <input id="m-q" type="search" name="q" placeholder="Search courses" autocomplete="off">
+                </form>
+                <ul>
+                    <li><a href="{{ url_for('home') }}#catalog">Courses</a></li>
+                    <li><a href="{{ url_for('my_enrollments') }}">My Learning</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
 
-    <!-- Page content -->
-    <main class="main-content">
-        {% block content %}{% endblock %}
+    <main id="main" class="main-content">
+        <div class="wrap">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="flash-container" role="status">
+                {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
     </main>
 
-    <!-- Footer -->
     <footer class="site-footer">
-        <div class="footer-inner">
-            <p>&copy; 2026 LearnHub &middot; Cloud Computing Course Project</p>
+        <div class="wrap footer-inner">
+            <p>&copy; 2026 LearnHub &middot; Cloud Computing course project. Video lectures belong to their original creators on YouTube.</p>
+            <ul class="footer-links">
+                <li><a href="{{ url_for('home') }}#catalog">Courses</a></li>
+                <li><a href="{{ url_for('my_enrollments') }}">My Enrollments</a></li>
+                <li><a href="{{ url_for('health') }}">Status</a></li>
+            </ul>
         </div>
     </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>
