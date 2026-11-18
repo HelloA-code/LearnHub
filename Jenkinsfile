@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'online-education-platform'
+        DOCKERHUB_REPO = 'akhilhegde0118/online-education-platform'
     }
 
     stages {
@@ -38,11 +39,31 @@ pipeline {
                 bat "docker build -t %IMAGE_NAME%:latest ."
             }
         }
+
+        stage('Push to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKERHUB_USER',
+                    passwordVariable: 'DOCKERHUB_TOKEN'
+                )]) {
+                    bat '''
+                        @echo off
+                        echo %DOCKERHUB_TOKEN%| docker login --username %DOCKERHUB_USER% --password-stdin || exit /b 1
+                        docker tag %IMAGE_NAME%:latest %DOCKERHUB_REPO%:latest || exit /b 1
+                        docker tag %IMAGE_NAME%:%BUILD_NUMBER% %DOCKERHUB_REPO%:%BUILD_NUMBER% || exit /b 1
+                        docker push %DOCKERHUB_REPO%:latest || exit /b 1
+                        docker push %DOCKERHUB_REPO%:%BUILD_NUMBER% || exit /b 1
+                        docker logout
+                    '''
+                }
+            }
+        }
     }
 
     post {
         always {
-            echo "Pipeline finished – Build #${env.BUILD_NUMBER}"
+            echo "Pipeline finished - Build #${env.BUILD_NUMBER}"
         }
         success {
             echo 'All stages passed.'
