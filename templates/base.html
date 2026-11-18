@@ -40,7 +40,8 @@
             <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
             <symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></symbol>
             <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
-            <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+            <symbol id="i-quiz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+            <symbol id="i-user"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
             <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
         </defs>
     </svg>
@@ -53,6 +54,29 @@
                 <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5" fill="currentColor"/><path d="M7 6v12h10" stroke="#fff" stroke-width="2.4" fill="none"/></svg>
                 LearnHub
             </a>
+
+            <details class="explore" data-explore>
+                <summary>Explore <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg></summary>
+                <div class="explore-panel">
+                    <div>
+                        <h2>Topics</h2>
+                        <ul>
+                            {% for key, label in [('Cloud', 'Cloud computing'), ('DevOps', 'DevOps'), ('Computer Science', 'Computer science'), ('Programming', 'Programming & web'), ('Data', 'Data & machine learning'), ('Systems', 'Systems & networking'), ('Security', 'Security'), ('Math', 'Mathematics')] %}
+                            <li><a href="{{ url_for('home') }}?category={{ key|urlencode }}#catalog">{{ label }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div>
+                        <h2>Learning paths</h2>
+                        <ul>
+                            {% for key, label in [('cloud', 'Cloud Engineer'), ('devops', 'DevOps Engineer'), ('cs', 'Computer Science Foundations'), ('web', 'Full-Stack Web Developer'), ('data', 'Data and Machine Learning')] %}
+                            <li><a href="{{ url_for('home') }}?path={{ key }}#catalog">{{ label }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <a class="all" href="{{ url_for('home') }}#catalog">Browse all courses</a>
+                    </div>
+                </div>
+            </details>
 
             <ul class="nav-links">
                 <li><a href="{{ url_for('home') }}#catalog" {% if request.endpoint in ['home', 'course_detail', 'enroll'] %}aria-current="page"{% endif %}>Courses</a></li>
@@ -86,8 +110,14 @@
                     <input id="m-q" type="search" name="q" placeholder="Search courses" autocomplete="off">
                 </form>
                 <ul>
-                    <li><a href="{{ url_for('home') }}#catalog">Courses</a></li>
+                    <li><a href="{{ url_for('home') }}#catalog">All courses</a></li>
                     <li><a href="{{ url_for('my_enrollments') }}">My Learning</a></li>
+                </ul>
+                <h2>Learning paths</h2>
+                <ul>
+                    {% for key, label in [('cloud', 'Cloud Engineer'), ('devops', 'DevOps Engineer'), ('cs', 'Computer Science Foundations'), ('web', 'Full-Stack Web Developer'), ('data', 'Data and Machine Learning')] %}
+                    <li><a href="{{ url_for('home') }}?path={{ key }}#catalog">{{ label }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>

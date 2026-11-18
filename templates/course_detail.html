@@ -12,6 +12,7 @@
     <span class="breadcrumb-sep" aria-hidden="true">/</span>
     <span data-crumb-lesson>Lesson</span>
     {% else %}
+    <span data-crumb-category hidden></span>
     <span aria-current="page">{{ course['title'] }}</span>
     {% endif %}
 </nav>
@@ -24,37 +25,41 @@
     </div>
     <div class="player-layout">
         <div>
-            <div class="video" data-video></div>
-            <div class="lesson-bar">
-                <label class="checkbox">
-                    <input type="checkbox" data-complete>
-                    Mark as complete
-                </label>
-                <div class="btn-row">
-                    <a class="btn btn-outline btn-sm" data-prev href="#">
-                        <svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg>Previous
-                    </a>
-                    <a class="btn btn-primary btn-sm" data-next href="#">
-                        Next<svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
-                    </a>
+            <div data-lesson-view>
+                <div class="video" data-video></div>
+                <div class="lesson-bar">
+                    <label class="checkbox">
+                        <input type="checkbox" data-complete>
+                        Mark as complete
+                    </label>
+                    <div class="btn-row" data-nav-slot></div>
+                </div>
+                <div class="lesson-info">
+                    <p class="eyebrow" data-lesson-module></p>
+                    <h2 data-lesson-title></h2>
+                    <p class="lesson-source" data-lesson-source></p>
+                </div>
+                <div class="notes">
+                    <div class="notes-head">
+                        <label for="lesson-notes">Your notes for this lesson</label>
+                        <span class="notes-status" data-notes-status aria-live="polite"></span>
+                    </div>
+                    <textarea id="lesson-notes" data-notes placeholder="Notes are saved automatically in this browser."></textarea>
                 </div>
             </div>
-            <div class="lesson-info">
-                <p class="eyebrow" data-lesson-module></p>
-                <h2 data-lesson-title></h2>
-                <p class="lesson-source" data-lesson-source></p>
-            </div>
-            <div class="notes">
-                <div class="notes-head">
-                    <label for="lesson-notes">Your notes for this lesson</label>
-                    <span class="notes-status" data-notes-status aria-live="polite"></span>
-                </div>
-                <textarea id="lesson-notes" data-notes placeholder="Notes are saved automatically in this browser."></textarea>
+            <div data-quiz-view hidden></div>
+            <div class="btn-row" style="margin-top:16px;justify-content:flex-end" data-nav>
+                <a class="btn btn-outline btn-sm" data-prev href="#">
+                    <svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg>Previous
+                </a>
+                <a class="btn btn-primary btn-sm" data-next href="#">
+                    Next<svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+                </a>
             </div>
         </div>
         <aside class="lesson-panel" aria-label="Course lessons">
             <div class="panel-head">
-                <h2>Lessons</h2>
+                <h2>Course content</h2>
                 <div class="progress" role="progressbar" aria-label="Course progress" aria-valuemin="0" aria-valuemax="100" data-progress><span style="width:0"></span></div>
                 <span class="progress-label" data-progress-label></span>
             </div>
@@ -83,6 +88,7 @@
                     <span>Save</span>
                 </button>
             </div>
+            <p class="small muted" style="margin-top:12px" data-path-note hidden></p>
         </div>
         <aside class="course-preview" aria-label="Course summary">
             <div class="thumb" data-thumb aria-hidden="true"></div>
@@ -95,34 +101,72 @@
         </aside>
     </header>
 
+    <dl class="facts" data-facts hidden></dl>
+
+    <nav class="course-subnav" aria-label="Course sections" data-subnav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#outcomes" data-needs-data hidden>Outcomes</a></li>
+            <li><a href="#modules" data-needs-data hidden>Modules</a></li>
+            <li><a href="#instructors">Instructors</a></li>
+            <li><a href="#faq" data-needs-data hidden>FAQ</a></li>
+        </ul>
+    </nav>
+
     <div class="course-body">
         <div>
-            <section data-learn-section hidden>
+            <section id="about" class="anchor course-detail-body">
+                <h2>About This Course</h2>
+                <p>{{ course['long_description'] }}</p>
+                <div data-skills-wrap hidden style="margin-top:24px">
+                    <h3 style="margin-bottom:12px">Skills you'll gain</h3>
+                    <ul class="skills" data-skills></ul>
+                </div>
+                {% if course['prerequisites'] %}
+                <h3 style="margin:24px 0 6px">Prerequisites</h3>
+                <p>{{ course['prerequisites'] }}</p>
+                {% endif %}
+            </section>
+
+            <section id="outcomes" class="anchor" data-learn-section hidden>
                 <h2>What you'll learn</h2>
                 <ul class="learn-list" data-learn></ul>
             </section>
 
-            <section class="course-detail-body">
-                <h2>About This Course</h2>
-                <p>{{ course['long_description'] }}</p>
+            <section id="modules" class="anchor" data-syllabus-section hidden>
+                <h2 data-syllabus-title>Syllabus</h2>
+                <div class="syllabus-tools">
+                    <p data-syllabus-summary></p>
+                    <button type="button" class="btn btn-ghost btn-sm" data-expand-all>Expand all modules</button>
+                </div>
+                <div class="syllabus" data-syllabus></div>
             </section>
 
-            <section data-syllabus-section hidden>
-                <h2>Syllabus</h2>
-                <div class="syllabus" data-syllabus></div>
+            <section id="instructors" class="anchor">
+                <h2>Instructors</h2>
+                <div class="instructors" data-instructors>
+                    <div class="person">
+                        <div class="avatar" aria-hidden="true">{{ course['instructor'][:1] }}</div>
+                        <div>
+                            <h3>{{ course['instructor'] }}</h3>
+                            <p>Course instructor</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="faq" class="anchor" data-faq-section hidden>
+                <h2>Frequently asked questions</h2>
+                <div class="faq" data-faq></div>
             </section>
         </div>
 
         <aside>
-            {% if course['prerequisites'] %}
+            <div data-path-boxes></div>
             <div class="side-box">
-                <h3>Prerequisites</h3>
-                <p>{{ course['prerequisites'] }}</p>
-            </div>
-            {% endif %}
-            <div class="side-box">
-                <h3>Instructor</h3>
-                <p>{{ course['instructor'] }}</p>
+                <h3>Enroll in this course</h3>
+                <p>Enrolling is free. It adds this course to My Learning under your email.</p>
+                <a href="{{ url_for('enroll', course_id=course['id']) }}" class="btn btn-primary btn-block" style="margin-top:12px">Enroll for free</a>
             </div>
             <div class="side-box" data-credits hidden>
                 <h3>Video lectures</h3>
@@ -131,6 +175,11 @@
             </div>
         </aside>
     </div>
+
+    <section class="section" data-related-section hidden aria-labelledby="related-title">
+        <h2 id="related-title" style="margin-bottom:16px">Related courses</h2>
+        <ul class="related-grid" data-related></ul>
+    </section>
 
     <div class="course-detail-actions course-actions">
         <a href="{{ url_for('enroll', course_id=course['id']) }}" class="btn btn-primary">Enroll in This Course</a>
